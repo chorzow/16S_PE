@@ -1,0 +1,6 @@
+PWD: '/home/lam25/test'
+OTU_threshold: 1
+adapters_path: '/opt/Trimmomatic-0.39/adapters/All_adapters.fa'
+trimmomatic_path: '/opt/Trimmomatic-0.39/trimmomatic-0.39.jar'
+trim_params: 'ILLUMINACLIP:/opt/Trimmomatic-0.39/adapters/All_adapters.fa:2:30:10 LEADING:0 TRAILING:0 SLIDINGWINDOW:4:15 HEADCROP:17 MINLEN:150'
+threads: 20
