@@ -34,16 +34,21 @@ head(taxa.print)
 dim(taxa)
 
 print('Save OTU sequences as fasta...')
-names(taxa)[names(taxa) == ""] <- "OTU_sequence"
-taxa$OTU_name <- paste0("OTU_", seq(nrow(taxa)))
-otunames <- paste0(">", taxa$OTU_name)
-seqs <- c(rbind(otunames, taxa$OTU_sequence))
+tax = data.frame(taxa)
+tax$OTU_sequence <- rownames(tax)
+tax$OTU_name <- paste0("OTU_", seq(nrow(tax)))
+head(tax)
+
+otunames <- paste0(">", tax$OTU_name)
+seqs <- c(rbind(otunames, tax$OTU_sequence))
+head(seqs)
 write(seqs, file.path(directory, "results/otu.fasta"))
+tax$OTU_sequence <- NULL
 
 
 print('Save taxonomy...')
 #if required save taxonomy with and without nt
-write.table(taxa, sep = "\t", file = file.path(directory, "results/all_OTUs_phylogeny.tsv"), col.names = NA)
+write.table(tax, sep = "\t", file = file.path(directory, "results/all_OTUs_phylogeny.tsv"), col.names = NA)
 write.table(taxa.print, sep = "\t", file = file.path(directory, "results/all_phylogeny.tsv"), col.names = NA)
 
 
