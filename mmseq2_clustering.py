@@ -108,7 +108,9 @@ def rep_seq_cumulative_frequency(ASV_input_table_path, MMseq_Clusters_dict, ASV_
     ASV_freq_dataframe = pd.read_csv(ASV_input_table_path, sep='\t', header=0, index_col=0)
     print('Shape of the initial ASV table: ', ASV_freq_dataframe.shape)
 
-    Rep_seq_freq_dataframe = pd.DataFrame(columns=ASV_freq_dataframe.columns)
+    Rep_seq_freq_dataframe_col_names = ['OTU_sequence'] + list(ASV_freq_dataframe.columns)
+    Rep_seq_freq_dataframe = pd.DataFrame(columns=Rep_seq_freq_dataframe_col_names)
+
     #Iterate clusters of sequences and sum frequences. Report cumulative frequency for representative ASV, named thereafter OTU.
     for Rep_Seq_ID, Dep_Seq_ar in MMseq_Clusters_dict.items():
         print(Dep_Seq_ar)
@@ -118,7 +120,7 @@ def rep_seq_cumulative_frequency(ASV_input_table_path, MMseq_Clusters_dict, ASV_
         OTU_seq_series.index = ['OTU_sequence']
         cluster_freq_series_seq = pd.concat([OTU_seq_series, cluster_freq_series])
         cluster_freq_series_seq.name = Rep_Seq_ID
-        Rep_seq_freq_dataframe = Rep_seq_freq_dataframe.append(cluster_freq_series_seq)
+        Rep_seq_freq_dataframe.loc[Rep_Seq_ID] = cluster_freq_series_seq
 
     print('Shape of the resultant OTU table: ', Rep_seq_freq_dataframe.shape)
     Column_order = ['OTU_sequence'] + list(ASV_freq_dataframe.columns)
